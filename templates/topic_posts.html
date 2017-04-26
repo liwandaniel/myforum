@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}文章{% endblock %}
+{% block body %}
+    <h2>话题: {{ tag.name }}</h2>
+    <ul class="nav nav-pills">
+        <li class="{% if sort == 'time' %}active{% endif %}">
+             <a href="?sort=time">时间排序</a>
+        </li>
+        <li class="{% if sort == 'hot' %}active{% endif %}">
+             <a href="?sort=hot">热门排序</a>
+        </li>
+    </ul>
+    <div>
+    {% for post in tag.all_posts %}
+	<div class="row clearfix">
+		<div class="col-md-8 column">
+            <div class="blog-post">
+                <h3>
+                    <a class="title" href="{% url 'posts:post_detail' post.id %}">{{ post.title }} </a>
+                </h3>
+                <p>
+                    <a class="content" href="{% url 'posts:post_detail' post.id %}">{{ post.content }}
+                        <img width="160" height="80" src="{{ MEDIA_URL }}{{ post.image }}">
+                    </a>
+                </p>
+                <span href="" class="label label-primary">
+                    {% for tag in post.all_tags  %}
+
+                        <a class="category" href="{% url 'topic_posts' tag.id %}">{{ tag.name }}</a>
+                    {% endfor %}
+                </span>
+                <p style="margin-top: 15px">
+                    <p class="post_time" href="">{{ post.add_time }}</p>
+                <h5>
+                    <span>作者: {{ post.author.nick_name }} </span>
+                </h5>
+            </div>
+
+		</div>
+	</div>
+    {% endfor %}
+    </div>
+{% endblock %}

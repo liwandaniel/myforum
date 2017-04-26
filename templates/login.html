@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+{% load staticfiles %}
+<head>
+	<meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" >
+	<title>{% block title %}论坛登录{% endblock %}</title>
+    {% block custom_css %}{% endblock %}
+
+    <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
+    <script type="text/javascript" src="{% static 'bootstrap/js/jquery.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap-theme.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <!-- 包括所有已编译的插件 -->
+    <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+
+    {% block custom_js %}{% endblock %}
+</head>
+<body>
+    <div class="top-content">
+
+            <div class="inner-bg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-8 col-sm-offset-2 text">
+                            <h1>
+                                <a href="{% url 'index' %}">健身论坛</a>
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-3 form-box">
+                        	<div class="form-top">
+                        		<div class="form-top-left">
+                        			<h3>登录</h3>
+                            		<p>输入用户名和密码登录:</p>
+                        		</div>
+                        		<div class="form-top-right">
+                        			<i class="fa fa-key"></i>
+                        		</div>
+                            </div>
+                            <div>
+			                    <form role="form" action="" method="post">
+			                    	<div class="form-group {% if login_form.errors.username %}errorput{% endif %}">
+			                    		<label class="sr-only" for="form-username">Username</label>
+			                        	<input type="text" name="username" placeholder="用户名或邮箱" class="form-username form-control" id="username">
+			                        </div>
+			                        <div class="form-group {% if login_form.errors.password %}errorput{% endif %}">
+			                        	<label class="sr-only" for="password">Password</label>
+			                        	<input type="password" name="password" placeholder="请输入密码" class="form-password form-control" id="password">
+			                        </div>
+                                    <div>{% for key, error in login_form.errors.items %}{{ error }}{% endfor %}{{ msg }}</div>
+			                        <button type="submit" class="btn">登录</button>
+                                    <a href="{% url 'forget_pwd' %}">忘记密码?</a>
+                                    {% csrf_token %}
+			                    </form>
+		                    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+</body>
+</html>

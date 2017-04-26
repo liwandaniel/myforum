@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}文章{% endblock %}
+{% block body %}
+    <ul class="nav nav-pills">
+        <li class="{% if sort == 'time' %}active{% endif %}">
+             <a href="?sort=time">时间排序</a>
+        </li>
+        <li class="{% if sort == 'hot' %}active{% endif %}">
+             <a href="?sort=hot">热门排序</a>
+        </li>
+        <li>
+             <a href="{% url 'posts:add_post' %}" class="btn">
+          <span class="glyphicon glyphicon-pencil"></span>写文章
+            </a>
+        </li>
+    </ul>
+    <div>
+        <div class="col-md-4 column" style="float: right; margin-top: 30px; border-bottom: 2px solid #f4f4f4;">
+            <div  style="margin-top: 20px" class="topic-hot-title">
+                <span>热门文章</span>
+            </div>
+            {% for hot_post in hot_posts %}
+            <h3>
+                <a class="title" href="{% url 'posts:post_detail' hot_post.id %}">{{ hot_post.title }} </a>
+            </h3>
+            {% endfor %}
+        </div>
+    {% for post in post_list.object_list %}
+	<div class="row clearfix">
+		<div class="col-md-8 column">
+            <div class="blog-post">
+                <h3>
+                    <a class="title" href="{% url 'posts:post_detail' post.id %}">{{ post.title }} </a>
+                </h3>
+                <p>
+                    <a class="content" href="{% url 'posts:post_detail' post.id %}">{{ post.content }}
+                    </a>
+                </p>
+                <p>
+                    <a href="{% url 'posts:post_detail' post.id %}">
+                        <img width="160" height="80" src="{{ MEDIA_URL }}{{ post.image }}">
+                    </a>
+                </p>
+                <span>
+                    {% for tag in post.all_tags  %}
+                        <a class="tags" href="{% url 'topic_posts' tag.id %}">{{ tag.name }}</a>
+                    {% endfor %}
+                </span>
+                <p style="margin-top: 45px">
+                    <p class="post_time" href="">{{ post.add_time }}</p>
+                <h5>
+                    <span>作者: {{ post.author.nick_name }} </span>
+                </h5>
+            </div>
+
+		</div>
+	</div>
+    {% endfor %}
+    <div class="">
+        <ul class="pagination">
+            {% if post_list.has_previous %}
+                <li class=""><a href="?{{ post_list.previous_page_number.querystring }}">上一页</a></li>
+            {% endif %}
+            {% for page in post_list.pages %}
+                {% if page %}
+                    {% ifequal page posts.number %}
+                        <li class="active"><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                    {% else %}
+                        <li><a href="?{{ page.querystring }}" class="page">{{ page }}</a></li>
+                    {% endifequal %}
+                {% else %}
+                    <li class=""><a href="">...</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if post_list.has_next %}
+                <li class=""><a href="?{{ post_list.next_page_number.querystring }}">下一页</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    </div>
+{% endblock %}

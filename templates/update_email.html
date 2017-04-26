@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+{% load staticfiles %}
+<head>
+	<meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" >
+	<title>{% block title %}修改邮箱{% endblock %}</title>
+    {% block custom_css %}{% endblock %}
+
+    <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
+    <script type="text/javascript" src="{% static 'bootstrap/js/jquery.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap-theme.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <!-- 包括所有已编译的插件 -->
+    <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+
+    {% block custom_js %}{% endblock %}
+</head>
+    <div class="top-content">
+
+            <div class="inner-bg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-8 col-sm-offset-2 text">
+                            <h1>
+                                <a href="{% url 'index' %}">健身论坛</a>
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-3 form-box">
+                        	<div class="form-top">
+                        		<div class="form-top-left">
+                        			<h3>修改邮箱</h3>
+                        		</div>
+                        		<div class="form-top-right">
+                        			<i class="fa fa-key"></i>
+                        		</div>
+                            </div>
+                            <div class="form-bottom">
+			                    <form name="email_form" role="form" action="{% url 'user:update_email' %}" method="post" class="login-form">
+			                    	<div class="form-group">
+			                    		<label class="sr-only" for="form-username">Username</label>
+			                        	<input type="text" id="email_account" name="email" placeholder="邮箱" value="{{ update_email_form.email.value }}" class="form-control">
+			                        </div>
+
+                                    <div class="form-group">
+                                        <input type="text" name="code" placeholder="验证码" class="form-control">
+                                        <button type="button" id="test" name="send_email" class="btn">发送验证码</button>
+                                    </div>
+                                    <div class="error btns">{% for key, error in update_email_form.errors.items %}{{ error }}{% endfor %}{{ msg }}</div>
+                                    <button type="submit" name="submit_update" class="btn">完成</button>
+                                    {% csrf_token %}
+			                    </form>
+		                    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <script type="text/javascript">
+    $(document).ready(function(){
+      $("#test").click(function(){
+        $.ajax({
+            url : "{% url 'user:sendemail_code' %}",
+            type: "POST",
+            data : {
+                "email": $('#email_account').attr('value'),
+                'csrfmiddlewaretoken': '{% csrf_token %}'
+            },
+
+            success: function(data, textStatus, jqXHR)
+            {
+                //data - response from server
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+
+            }
+        });
+
+      });
+    });
+    </script>
+</html>

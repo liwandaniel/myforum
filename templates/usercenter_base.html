@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+{% load staticfiles %}
+<head>
+	<meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" >
+	<title>{% block title %}论坛首页{% endblock %}</title>
+    {% block custom_css %}{% endblock %}
+
+    <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
+    <script type="text/javascript" src="{% static 'bootstrap/js/jquery.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap-theme.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <!-- 包括所有已编译的插件 -->
+    <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+
+    {% block custom_js %}{% endblock %}
+</head>
+<body>
+<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<nav class="navbar navbar-default" role="navigation">
+				<div class="navbar-header">
+					 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="/">健身论坛</a>
+				</div>
+
+				<div class="collapse navbar-collapse navbar-responsive-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li {% if request.path == '/' %}class="active" {% endif %}>
+							 <a href="/">首页</a>
+						</li>
+						<li {% if request.path|slice:'6' == '/posts' %}class="active"{% endif %}>
+							 <a href="{% url 'posts:post_list' %}">文章</a>
+						</li>
+                        <li>
+							 <a href="#">话题</a>
+						</li>
+					</ul>
+					<form class="navbar-form navbar-left" id="search-form" role="search" data-value="posts">
+						<div class="form-group">
+							<input type="text" id="search_keywords" class="form-control" placeholder="在此输入"/>
+						</div> <button id="jsSearchBtn" type="button" class="btn btn-default">搜索</button>
+                    </form>
+
+                    {% if request.user.is_authenticated %}
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+                            <a href="#">
+                                <span class="badge pull-right">{{ request.user.unread_nums }}</span>
+                                个人消息
+                            </a>
+						</li>
+						<li class="dropdown">
+							 <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ request.user.nick_name }}<strong class="caret"></strong></a>
+							<ul class="dropdown-menu">
+								<li>
+									 <a href="{% url 'user:user_info' %}">个人中心</a>
+								</li>
+								<li class="divider">
+								</li>
+								<li>
+									 <a href="{% url 'logout' %}">退出</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+                    <div class="index_user_image">
+                        <img class="img-circle" width="40" height="40" src="{{ MEDIA_URL }}{{ user.image }}" />
+                    </div>
+                    {% else %}
+                    <ul class="nav navbar-nav">
+						<li style="margin-left: 250px">
+							 <a href="{% url 'login' %}">登录</a>
+						</li>
+						<li style="margin-left: 50px">
+							 <a href="{% url 'register' %}">注册</a>
+						</li>
+					</ul>
+                    {% endif %}
+			</nav>
+		</div>
+	</div>
+    <ul class="nav nav-pills">
+        <li class="{% ifequal current_page 'user_info' %}active{% endifequal %}">
+            <a href="{% url 'user:user_info' %}">个人信息</a>
+        </li>
+        <li class="{% ifequal current_page 'user_posts' %}active{% endifequal %}">
+            <a href="{% url 'user:user_posts' %}">我的文章</a>
+        </li>
+        <li class="{% ifequal current_page 'fav_posts' %}active{% endifequal %}">
+            <a href="{% url 'user:myfav_posts' %}">我的收藏</a>
+        </li>
+        <li class="{% ifequal current_page 'my_messages' %}active{% endifequal %}">
+            <a href="{% url 'user:mymessage' %}">个人消息</a>
+        </li>
+    </ul>
+
+{% block body %}
+
+{% endblock %}
+</div>
+
+</body>
+<script type="text/javascript">
+//顶部搜索栏搜索方法
+function search_click(){
+    var type = $('#search-form').attr('data-value'),
+        keywords = $('#search_keywords').val(),
+        request_url = '';
+    if(keywords == ""){
+        return
+    }
+    if(type == "posts"){
+        request_url = "/posts/list?keywords="+keywords
+    }else if(type == "tag"){
+        request_url = "/tag/list?keywords="+keywords
+    }
+    window.location.href = request_url
+}
+
+    $('#jsSearchBtn').on('click',function(){
+        search_click()
+    });
+    //搜索表单键盘事件
+    $("#search_keywords").keydown(function(event){
+        if(event.keyCode == 13){
+             $('#jsSearchBtn').trigger('click');
+        }
+    });
+</script>
+</html>

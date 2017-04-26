@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}话题{% endblock %}
+{% block body %}
+<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-8 column" style="margin-top: 30px; border-bottom: 1px solid #eee; height: 240px">
+            <div class="topic-title">
+                <span class="glyphicon glyphicon-th"></span>
+                <span>话题广场</span>
+            </div>
+            <ul style="margin-top: 30px">
+                 {% for tag in tags %}
+                 <li class="tags">
+					 <a href="{% url 'topic_posts' tag.id %}">{{ tag.name }}</a>
+                </li>
+                 {% endfor %}
+             </ul>
+		</div>
+		<div class="col-md-4 column" style="margin-top: 30px; border-bottom: 1px solid #eee; height: 240px" >
+            <div class="topic-hot-title">
+                <span>热门话题</span>
+            </div>
+            <ul style="margin-top: 30px">
+                {% for hot_tag in hot_tags %}
+                 <li class="tags">
+					 <a href="{% url 'topic_posts' hot_tag.id %}">{{ hot_tag.name }}</a>
+                </li>
+                {% endfor %}
+             </ul>
+		</div>
+	</div>
+</div>
+{% endblock %}

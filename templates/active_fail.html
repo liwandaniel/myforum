@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+{% load staticfiles %}
+<head>
+	<meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" >
+	<title>链接失效</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <a id="active_fail">链接失效</a>
+        <p><a href="{% url 'register' %}">[点击返回注册]</a></p>
+    </header>
+</body>
+</html>

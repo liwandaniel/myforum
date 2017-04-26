@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+{% load staticfiles %}
+<head>
+	<meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" >
+	<title>{% block title %}论坛首页{% endblock %}</title>
+    {% block custom_css %}{% endblock %}
+
+    <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
+    <script type="text/javascript" src="{% static 'bootstrap/js/jquery.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap-theme.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <!-- 包括所有已编译的插件 -->
+    <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+
+    {% block custom_js %}{% endblock %}
+</head>
+<body>
+<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<nav class="navbar navbar-default" role="navigation">
+				<div class="navbar-header">
+					 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="/">健身论坛</a>
+				</div>
+
+				<div class="collapse navbar-collapse navbar-responsive-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li {% if request.path == '/' %}class="active" {% endif %}>
+							 <a href="/">首页</a>
+						</li>
+						<li {% if request.path|slice:'6' == '/posts' %}class="active"{% endif %}>
+							 <a href="{% url 'posts:post_list' %}">文章</a>
+						</li>
+                        <li {% if request.path|slice:'7' == '/topics' %}class="active"{% endif %}>
+							 <a href="{% url 'topics' %}">话题</a>
+						</li>
+					</ul>
+					<form class="navbar-form navbar-left" id="search-form" role="search" data-value="posts">
+						<div class="form-group">
+							<input type="text" id="search_keywords" class="form-control" placeholder="在此输入"/>
+						</div> <button id="jsSearchBtn" type="button" class="btn btn-default">搜索</button>
+                    </form>
+
+                    {% if request.user.is_authenticated %}
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+                            <a href="{% url 'user:mymessage' %}">
+                                <span class="badge pull-right">{{ request.user.unread_nums }}</span>
+                                个人消息
+                            </a>
+						</li>
+						<li class="dropdown">
+							 <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ request.user.nick_name }}<strong class="caret"></strong></a>
+							<ul class="dropdown-menu">
+								<li>
+									 <a href="{% url 'user:user_info' %}">个人中心</a>
+								</li>
+								<li class="divider">
+								</li>
+								<li>
+									 <a href="{% url 'logout' %}">退出</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+                    <div class="index_user_image">
+                        <img class="img-circle" width="40" height="40" src="{{ MEDIA_URL }}{{ request.user.image }}" />
+                    </div>
+                    {% else %}
+                    <ul class="nav navbar-nav">
+						<li style="margin-left: 250px">
+							 <a href="{% url 'login' %}">登录</a>
+						</li>
+						<li style="margin-left: 50px">
+							 <a href="{% url 'register' %}">注册</a>
+						</li>
+					</ul>
+                    {% endif %}
+			</nav>
+		</div>
+	</div>
+
+{% block body %}
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<div class="carousel slide" id="carousel-279660">
+				<ol class="carousel-indicators">
+					<li class="active" data-slide-to="0" data-target="#carousel-279660">
+					</li>
+					<li data-slide-to="1" data-target="#carousel-279660">
+					</li>
+					<li data-slide-to="2" data-target="#carousel-279660">
+					</li>
+				</ol>
+				<div class="carousel-inner">
+					<div class="item active">
+						<img alt="" src="{% static 'images/banner/banner_1.png' %}" />
+						<div class="carousel-caption">
+							<h4>
+								穿上运动鞋,让全身燃烧起来
+							</h4>
+						</div>
+					</div>
+					<div class="item">
+						<img alt="" src="{% static 'images/banner/banner_2.png' %}" />
+						<div class="carousel-caption">
+							<h4>
+                                健身的妹子身材好
+							</h4>
+							<p>
+							</p>
+						</div>
+					</div>
+					<div class="item">
+						<img alt="" src="{% static 'images/banner/banner_3.png' %}" />
+						<div class="carousel-caption">
+							<h4>
+                                健身的汉子身材好
+							</h4>
+							<p>
+							</p>
+						</div>
+					</div>
+				</div> <a class="left carousel-control" href="#carousel-279660" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a> <a class="right carousel-control" href="#carousel-279660" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+			</div>
+		</div>
+	</div>
+    <div>
+        <div class="col-md-4 column" style="float: right; margin-top: 30px; border-bottom: 2px solid #f4f4f4;">
+            <div  style="margin-top: 20px" class="topic-hot-title">
+                <span>热门文章</span>
+            </div>
+            {% for hot_post in hot_posts %}
+            <h3>
+                <a class="title" href="{% url 'posts:post_detail' hot_post.id %}">{{ hot_post.title }} </a>
+            </h3>
+            {% endfor %}
+
+            <div style="margin-top: 20px" class="topic-hot-title">
+                <span>热门话题</span>
+            </div>
+            <ul style="margin-top: 30px">
+                {% for hot_tag in hot_tags %}
+                 <li class="tags">
+					 <a href="{% url 'topic_posts' hot_tag.id %}">{{ hot_tag.name }}</a>
+                </li>
+                {% endfor %}
+             </ul>
+        </div>
+    {% for post in post_list %}
+	<div class="row clearfix">
+		<div class="col-md-8 column">
+            <div class="blog-post">
+                <h3>
+                    <a  class="title" href="{% url 'posts:post_detail' post.id %}">{{ post.title }} </a>
+                </h3>
+                <p>
+                    <a class="content" href="{% url 'posts:post_detail' post.id %}">{{ post.content }}
+                    </a>
+                </p>
+                <p>
+                    <a href="{% url 'posts:post_detail' post.id %}">
+                        <img width="160" height="80" src="{{ MEDIA_URL }}{{ post.image }}">
+                    </a>
+                </p>
+                <span>
+                    {% for tag in post.all_tags  %}
+
+                        <a class="tags" href="{% url 'topic_posts' tag.id %}">{{ tag.name }}</a>
+                    {% endfor %}
+                </span>
+                <p style="margin-top: 45px">
+                    <p class="post_time" href="">{{ post.add_time }}</p>
+                <h5>
+                    <span>作者: {{ post.author.nick_name }} </span>
+                </h5>
+            </div>
+
+		</div>
+	</div>
+    {% endfor %}
+    </div>
+{% endblock %}
+</div>
+
+</body>
+<script type="text/javascript">
+//顶部搜索栏搜索方法
+function search_click(){
+    var type = $('#search-form').attr('data-value'),
+        keywords = $('#search_keywords').val(),
+        request_url = '';
+    if(keywords == ""){
+        return
+    }
+    if(type == "posts"){
+        request_url = "/posts/list?keywords="+keywords
+    }else if(type == "tag"){
+        request_url = "/tag/list?keywords="+keywords
+    }
+    window.location.href = request_url
+}
+
+    $('#jsSearchBtn').on('click',function(){
+        search_click()
+    });
+    //搜索表单键盘事件
+    $("#search_keywords").keydown(function(event){
+        if(event.keyCode == 13){
+             $('#jsSearchBtn').trigger('click');
+        }
+    });
+</script>
+</html>

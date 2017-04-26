@@ -1,0 +1,34 @@
+{% extends 'usercenter_base.html' %}
+{% load staticfiles %}
+{% block title %}个人文章{% endblock %}
+{% block body %}
+    {% for post in user_posts %}
+	<div class="row clearfix">
+		<div class="col-md-8 column">
+            <div class="blog-post">
+                <h3>
+                    <a class="title" href="{% url 'posts:post_detail' post.id %}">{{ post.title }} </a>
+                </h3>
+                <p>
+                    <a class="content" href="{% url 'posts:post_detail' post.id %}">{{ post.content }}
+                        <img width="160" height="80" src="{{ MEDIA_URL }}{{ post.image }}">
+                    </a>
+                </p>
+                <span>
+                    {% for tag in post.all_tags  %}
+                        <a class="tags" href="{% url 'topic_posts' tag.id %}">{{ tag.name }}</a>
+                    {% endfor %}
+                </span>
+                <p style="margin-top: 45px">
+                    <p class="post_time" href="">{{ post.add_time }}</p>
+                <h5>
+                    <span>作者: {{ post.author.nick_name }} </span>
+                </h5>
+                <a href="{% url 'user:delete_post' post.id %}">
+                  <span class="glyphicon glyphicon-trash">删除</span>
+                </a>
+            </div>
+		</div>
+	</div>
+    {% endfor %}
+{% endblock %}

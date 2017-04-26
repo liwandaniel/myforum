@@ -1,0 +1,45 @@
+{% extends 'usercenter_base.html' %}
+{% load staticfiles %}
+{% block title %}个人消息{% endblock %}
+{% block body %}
+    {% for message in all_messages.object_list %}
+        <div class="row clearfix">
+            <div class="col-md-8 column">
+                <div class="blog-post">
+                    <p>
+                        <a class="content" href="">{{ message.message }}
+                        </a>
+                    </p>
+                    <p style="margin-top: 15px">
+                    <p class="post_time" href="">{{ message.add_time }}</p>
+                    <a href="{% url 'user:delete_message' message.id %}">
+                      <span class="glyphicon glyphicon-trash">删除</span>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    {% endfor %}
+
+    <div class="">
+        <ul class="pagination">
+            {% if all_messages.has_previous %}
+                <li class=""><a href="?{{ all_messages.previous_page_number.querystring }}">上一页</a></li>
+            {% endif %}
+            {% for page in all_messages.pages %}
+                {% if page %}
+                    {% ifequal page all_messages.number %}
+                        <li class="active"><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                    {% else %}
+                        <li><a href="?{{ page.querystring }}" class="page">{{ page }}</a></li>
+                    {% endifequal %}
+                {% else %}
+                    <li class=""><a href="">...</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if all_messages.has_next %}
+                <li class=""><a href="?{{ all_messages.next_page_number.querystring }}">下一页</a></li>
+            {% endif %}
+        </ul>
+    </div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}写文章{% endblock %}
+{% block body %}
+        <div class="form-top">
+            <div class="">
+                <div class="">
+                    <h3>写文章</h3>
+                    <p>输入标题和内容:</p>
+                </div>
+            </div>
+                <form role="form" enctype="multipart/form-data" action="{% url 'posts:add_post' %}" method="post" class="">
+                    <div>
+                        <input type="text" name="title" placeholder="标题" class="form-control" id="title">
+                    </div>
+                    <div>
+                        <input type="text" name="content" placeholder="内容" class="form-control" style="margin-top: 20px;height: 150px;" id="content">
+                    </div>
+                    <label>添加图片</label>
+                    <input name="image" type="file" id="image"/>
+                    <div class="form-group">
+                        <select name="tag" style="width: 200px; margin-top: 5px" class="form-control">
+                            {% for tag in tags %}
+                            <option>{{ tag.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                    <button type="submit" style="margin-top: -10px" class="btn-post">提交</button>
+                    </div>
+
+                    {% csrf_token %}
+                </form>
+        </div>
+{% endblock %}
