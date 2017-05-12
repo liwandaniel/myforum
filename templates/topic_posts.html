@@ -24,13 +24,12 @@
                         <img width="160" height="80" src="{{ MEDIA_URL }}{{ post.image }}">
                     </a>
                 </p>
-                <span href="" class="label label-primary">
+                <span>
                     {% for tag in post.all_tags  %}
-
-                        <a class="category" href="{% url 'topic_posts' tag.id %}">{{ tag.name }}</a>
+                        <a class="tags" href="{% url 'topic_posts' tag.id %}">{{ tag.name }}</a>
                     {% endfor %}
                 </span>
-                <p style="margin-top: 15px">
+                <p style="margin-top: 45px">
                     <p class="post_time" href="">{{ post.add_time }}</p>
                 <h5>
                     <span>作者: {{ post.author.nick_name }} </span>

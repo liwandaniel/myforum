@@ -99,11 +99,9 @@ class PostDetailView(View):
         # 增加文章点击数
         posts.click_nums += 1
         posts.save()
-        tag = posts.all_tags
-        if tag:
+        tags = posts.all_tags
+        for tag in tags:
             related_posts = Post.objects.filter(tag=tag)
-        else:
-            related_posts = []
         return render(request, 'post_detail.html', {
             'posts': posts,
             'all_comments': all_comments,
