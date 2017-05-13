@@ -14,7 +14,7 @@ import os
 import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 sys.path.insert(0, os.path.join(BASE_DIR, 'xadmin'))
 sys.path.insert(0, os.path.join(BASE_DIR, 'static'))
@@ -26,7 +26,7 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'static'))
 SECRET_KEY = 'b_j3gvko2e4p*y6(%*bkxg_u=$zyo1m-*!lr-ei77x9d#g^(_a'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -103,7 +103,7 @@ DATABASES = {
         'USER': "root",
         'PASSWORD': "liwan123",
         'HOST': "127.0.0.1",
-
+        'PORT': "3306"
     }
 }
 
@@ -145,9 +145,9 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static"),
-)
+#STATICFILES_DIRS = (
+#    os.path.join(BASE_DIR, "static"),
+#)
 
 
 EMAIL_HOST = "smtp.163.com"
@@ -159,3 +159,5 @@ EMAIL_FROM = "daniel1993li@163.com"
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
