@@ -71,3 +71,7 @@ urlpatterns = [
     # 属于该话题的文章页面
     url(r'^topics/posts/(?P<tag_id>\d+)/$', TopicPostsView.as_view(), name="topic_posts"),
 ]
+
+#全局404页面配置
+handler404 = 'users.views.page_not_found'
+handler500 = 'users.views.page_error'
