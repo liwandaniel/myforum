@@ -1,6 +1,6 @@
 # _*_ encoding:utf-8 _*_
 import json
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, render_to_response
 from django.contrib.auth.decorators import login_required
 from django.views.generic.base import View
 from django.contrib.auth import authenticate, login, logout
@@ -332,3 +332,15 @@ def delete_message(request, message_id):
     message.delete()
     return redirect('user:mymessage')
 
+
+def page_not_found(request):
+    #全局404页面配置
+    response = render_to_response('404.html', {})
+    response.status_code = 404
+    return response
+
+def page_error(request):
+    #全局500页面配置
+    response = render_to_response('500.html', {})
+    response.status_code = 500
+    return response
