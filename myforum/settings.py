@@ -51,8 +51,6 @@ INSTALLED_APPS = [
     'operation',
     'category',
     'pure_pagination',
-    'DjangoUeditor',
-    'ckeditor',
 ]
 
 CKEDITOR_JQUERY_URL ='https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js'
@@ -145,9 +143,9 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static"),
-)
+#STATICFILES_DIRS = (
+#    os.path.join(BASE_DIR, "static"),
+#)
 
 
 EMAIL_HOST = "smtp.163.com"
@@ -160,4 +158,4 @@ EMAIL_FROM = "daniel1993li@163.com"
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
-# STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_ROOT = os.path.join(BASE_DIR, "static")

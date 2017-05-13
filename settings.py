@@ -26,7 +26,7 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'static'))
 SECRET_KEY = 'b_j3gvko2e4p*y6(%*bkxg_u=$zyo1m-*!lr-ei77x9d#g^(_a'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 

@@ -21,7 +21,7 @@ from users.views import IndexView, LoginView, LogoutView, RegisterView, ForgetPw
 from posts.views import TopicView, TopicPostsView
 from users.views import ModifyView
 from django.views.static import serve
-from myforum.settings import MEDIA_ROOT
+from myforum.settings import MEDIA_ROOT, STATIC_ROOT
 
 import xadmin
 
@@ -61,6 +61,9 @@ urlpatterns = [
 
     # 配置上传文件的访问处理函数
     url(r'^media/(?P<path>.*)$', serve, {'document_root': MEDIA_ROOT}),
+
+    # 配置静态文件的访问处理函数
+    url(r'^static/(?P<path>.*)$', serve, {'document_root': STATIC_ROOT}),
 
     # 个人中心配置
     url(r'^user/', include('users.urls', namespace="user")),
