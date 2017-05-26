@@ -100,7 +100,7 @@ class RegisterView(View):
             #写入欢迎注册消息
             user_message = UserMessage()
             user_message.user = user_profile.id
-            user_message.message = "欢迎注册慕学在线网"
+            user_message.message = "欢迎注册健身论坛"
             user_message.save()
             return render(request, "login.html")
         else:
